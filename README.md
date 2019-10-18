@@ -20,7 +20,7 @@ The aim of the Docker-1 project is to make you handle docker and docker-machine,
 Docker will help you better understand this specific tool, but also the various aspects of applications development using microservices.
 
 # Grades
-Init: 100 from 100.
-Roger-skyline-1: 100 from 100.
-Docker: 108 from 125 (should be corrected)
+* Init: 100 from 100.
+* Roger-skyline-1: 100 from 100.
+* Docker: 108 from 125 (should be corrected)
 
