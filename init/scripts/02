@@ -1,0 +1,29 @@
+#!/bin/bash
+i=0
+read -p "What user do you want to delete? " answer
+name=$answer
+$(cat /etc/passwd | grep $name > /dev/null 2>&1)
+if [ $? -eq 0 ]
+then
+	while [ $i -ne 1 ]
+	do 
+		read -p "Do you really want to delete the user $name? y/n " answer
+		if [ $answer = "y" ]
+		then
+			echo "Ok. Deleting all the processes of the user $name."
+			i=1
+			sudo pkill -u $name
+			echo "Deleting the user $name."
+			sudo userdel -f $name
+			echo "User $name deleted. If you want to check, enter the command: cat /etc/passwd | grep -w [user name]"
+		elif [ $answer = "n" ]
+		then
+			echo "It is your decision. Script finishes its work."
+			i=1
+		else
+			echo -e "\033[31;1mYou gave the wrong answer.\033[0m"
+		fi
+	done
+else
+	echo -e "\033[37;1;41mSuch user does not exist. Script finishes its work.\033[0m"
+fi

@@ -1,0 +1,21 @@
+#!/bin/bash
+name=$1
+if [ -n "$1" ]
+then
+	search=$(ldapsearch -Q "uid=$name" | grep -w "# numResponses:" | cut -d: -f2)
+	if [ $search -eq 2 ]
+	then
+		str=$(ldapsearch -Q "uid=$name" | grep mobile)
+		if [ -n "$str" ]
+		then
+			echo -e "\033[32;1m$(ldapsearch -Q "uid=$name" | grep mobile)\033[0m"
+		else
+			echo -e "\033[31;1mUser $name keeps his/her phone number in secret\033[0m"
+		fi
+	else
+		echo -e "\033[37;1;41m Such user does not exist\033[0m"
+	fi
+#	echo "$(ldapsearch -Q "uid=$name" | grep mobile)"
+else
+	echo -e "\033[36mPlease, write the user name. Try once more.\033[0m"
+fi

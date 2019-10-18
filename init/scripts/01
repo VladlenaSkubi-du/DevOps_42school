@@ -1,0 +1,35 @@
+#!/bin/bash
+file="/etc/passwd"
+nb=1
+i=0
+IFS=$'\n'
+
+if [ -f $file ]
+then
+	for line in $(cat $file | grep -v '#')
+	do
+		echo "$nb"
+		IFS=:
+		for value in $line
+		do
+			if [ $i -eq 0 ]
+			then
+				echo -e "\033[32mLOGIN is $value\033[0m"
+			elif [ $i -eq 3 ]
+			then
+				echo "UID is $value"
+			elif [ $i -eq 6 ]
+			then
+				echo "PATH is $value"
+			elif [ $i -gt 6 ]
+			then
+				break
+			fi
+			i=$(($i + 1))
+		done
+		(( nb++ ))
+		i=0
+	done
+else
+	echo -e "\033[37;1;41mThe file does not exist\033[0m"
+fi
