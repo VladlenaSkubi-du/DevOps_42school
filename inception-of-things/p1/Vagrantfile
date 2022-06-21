@@ -13,13 +13,35 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
   config.vm.box = 'vpn_centos7'
-  # config.vm.box_version = '0.0.0'
-  # config.vm.box_url = 'file:///Users/sschmele/goinfre/CentOS-7-x86_64-Vagrant-2004_01.VirtualBox.box'
-  config.vm.provider :virtualbox do |vpn_centos_7|
-    vpn_centos_7.name = 'vpn_centos7'
-    vpn_centos_7.cpus = 1
-    vpn_centos_7.memory = 1024
+  config.vm.box_url = 'file:///Users/a18979859/school_21/CentOS-7-x86_64-Vagrant-2004_01.VirtualBox.box'
+  config.vm.box_check_update = false
+
+  config.vm.define "sschmeleS" do |server|
+    server.vm.hostname = "sschmeleS"
+    server.vm.network "private_network", ip: "192.168.42.110", virtualbox__intnet: true
+    server.vm.provider "virtualbox" do |vpn_centos_7|
+      vpn_centos_7.check_guest_additions = false
+      vpn_centos_7.customize ["modifyvm", :id, "--name", "sschmeleS"]
+      vpn_centos_7.name = 'sschmeleS'
+      vpn_centos_7.cpus = 1
+      vpn_centos_7.memory = 1024
+    end
+    config.vm.provision "shell", path: "scripts/prepare_vm.sh"
   end
+  config.vm.define "sschmeleSW" do |server|
+    server.vm.hostname = "sschmeleSW"
+    server.vm.network "private_network", ip: "192.168.42.111", virtualbox__intnet: true
+    server.vm.provider "virtualbox" do |vpn_centos_7|
+      vpn_centos_7.check_guest_additions = false
+      vpn_centos_7.customize ["modifyvm", :id, "--name", "sschmeleSW"]
+      vpn_centos_7.name = 'sschmeleSW'
+      vpn_centos_7.cpus = 1
+      vpn_centos_7.memory = 512
+    end
+    config.vm.provision "shell", path: "scripts/prepare_vm.sh"
+  end
+
+  config.vm.post_up_message = "Server: Hostname is \'sschmeleS\' and IP 192.168.42.110\nServer Worker: Hostname is \'sschmeleSW\' and IP 192.168.42.111"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
