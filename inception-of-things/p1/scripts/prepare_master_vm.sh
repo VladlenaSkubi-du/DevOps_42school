@@ -13,7 +13,7 @@ if [ -z "$k3s" ]
 then
     curl -sfL https://get.k3s.io | sh - # download k3s
     # Problem: WARN[0014] Unable to read /etc/rancher/k3s/k3s.yaml, please start server with --write-kubeconfig-mode to modify kube config permissions 
-    mkdir .kube
+    mkdir -p .kube # ignore command if directory exists
     sudo cp /etc/rancher/k3s/k3s.yaml $HOME/.kube/config && \
         sudo chown $USER $HOME/.kube/config && \
         sudo chmod 600 $HOME/.kube/config && \
