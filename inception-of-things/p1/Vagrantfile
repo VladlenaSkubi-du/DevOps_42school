@@ -1,6 +1,23 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+### configuration parameters ###
+# amount of RAM for VM
+VM_RAM_MB = 1024
+# number of CPUs for VM
+VM_CPU_COUNT = 1
+# server k3s cluster name
+K3S_SERVER_NAME = "sschmeleS"
+# server k3s cluster ip-address
+K3S_SERVER_IP = "192.168.42.110"
+# server k3s cluster token
+K3S_SERVER_TOKENFILE = "/var/lib/rancher/k3s/server/node-token"
+# agent k3s cluster name
+K3S_AGENT1_NAME = "sschmeleSW"
+# server k3s cluster ip-address
+K3S_AGENT1_IP = "192.168.42.111"
+### /configuration parameters ###
+
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
@@ -16,32 +33,39 @@ Vagrant.configure("2") do |config|
   config.vm.box_url = 'file:///Users/a18979859/school_21/CentOS-7-x86_64-Vagrant-2004_01.VirtualBox.box'
   config.vm.box_check_update = false
 
-  config.vm.define "sschmeleS" do |server|
-    server.vm.hostname = "sschmeleS"
-    server.vm.network "private_network", ip: "192.168.42.110", virtualbox__intnet: true
+  config.vm.define K3S_SERVER_NAME do |server|
+    server.vm.hostname = K3S_SERVER_NAME
+    server.vm.network "private_network", ip: K3S_SERVER_IP, virtualbox__intnet: true
     server.vm.provider "virtualbox" do |vpn_centos_7|
       vpn_centos_7.check_guest_additions = false
-      vpn_centos_7.customize ["modifyvm", :id, "--name", "sschmeleS"]
-      vpn_centos_7.name = 'sschmeleS'
-      vpn_centos_7.cpus = 1
-      vpn_centos_7.memory = 1024
+      vpn_centos_7.customize ["modifyvm", :id, "--name", K3S_SERVER_NAME]
+      vpn_centos_7.name = K3S_SERVER_NAME
+      vpn_centos_7.cpus = VM_CPU_COUNT
+      vpn_centos_7.memory = VM_RAM_MB
     end
-    config.vm.provision "shell", path: "scripts/prepare_vm.sh"
-  end
-  config.vm.define "sschmeleSW" do |server|
-    server.vm.hostname = "sschmeleSW"
-    server.vm.network "private_network", ip: "192.168.42.111", virtualbox__intnet: true
-    server.vm.provider "virtualbox" do |vpn_centos_7|
-      vpn_centos_7.check_guest_additions = false
-      vpn_centos_7.customize ["modifyvm", :id, "--name", "sschmeleSW"]
-      vpn_centos_7.name = 'sschmeleSW'
-      vpn_centos_7.cpus = 1
-      vpn_centos_7.memory = 512
+    server.vm.provision "shell" do |server|
+      server.path = "scripts/prepare_master_vm.sh"
+      server.args = [K3S_SERVER_IP]
     end
-    config.vm.provision "shell", path: "scripts/prepare_vm.sh"
   end
 
-  config.vm.post_up_message = "Server: Hostname is \'sschmeleS\' and IP 192.168.42.110\nServer Worker: Hostname is \'sschmeleSW\' and IP 192.168.42.111"
+  # config.vm.provision "shell", inline: "vagrant ssh -c \"sudo cat /var/lib/rancher/k3s/server/node-token\" > ~/token.txt"
+
+  config.vm.define K3S_AGENT1_NAME do |agent|
+    agent.vm.hostname = K3S_AGENT1_NAME
+    agent.vm.network "private_network", ip: "192.168.42.111", virtualbox__intnet: true
+    agent.vm.provider "virtualbox" do |vpn_centos_7|
+      vpn_centos_7.check_guest_additions = false
+      vpn_centos_7.customize ["modifyvm", :id, "--name", K3S_AGENT1_NAME]
+      vpn_centos_7.name = K3S_AGENT1_NAME
+      vpn_centos_7.cpus = VM_CPU_COUNT
+      vpn_centos_7.memory = VM_RAM_MB
+    end
+    agent.vm.provision "shell" do |agent|
+      agent.path = "scripts/prepare_slave_vm.sh"
+      agent.args = [K3S_AGENT1_IP, K3S_SERVER_IP, K3S_SERVER_TOKENFILE]
+    end
+  end
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs

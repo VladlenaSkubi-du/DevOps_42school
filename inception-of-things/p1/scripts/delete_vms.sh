@@ -9,4 +9,4 @@ then
 fi
 
 vagrant halt $name
-yes | vagrant destroy $name
+vagrant destroy $name
