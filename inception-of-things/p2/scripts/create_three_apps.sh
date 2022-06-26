@@ -14,7 +14,7 @@ k3s=$(which k3s)
 if [ -z "$k3s" ]
 then
     echo "[INFO] Install k3s and set $1 as server"
-    curl -sfL https://get.k3s.io | sh -s - server --node-ip $1 --tls-san $1
+    curl -sfL https://get.k3s.io | sh -s - server --node-ip $1 --tls-san $1 --node-external-ip $1
     # Problem: WARN[0014] Unable to read /etc/rancher/k3s/k3s.yaml, please start server with --write-kubeconfig-mode to modify kube config permissions 
     mkdir -p /home/vagrant/.kube # ignore command if directory exists
     sudo cp /etc/rancher/k3s/k3s.yaml /home/vagrant/.kube/config && \
@@ -25,3 +25,4 @@ then
 fi
 
 echo "[INFO] Create ingress and application nodes on $1"
+echo "Actions..."
