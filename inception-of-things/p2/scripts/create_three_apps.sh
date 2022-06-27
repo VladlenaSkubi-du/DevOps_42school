@@ -26,3 +26,5 @@ fi
 
 echo "[INFO] Create ingress and application nodes on $1"
 echo "Actions..."
+# kubectl create configmap app1 --from-file /tmp/confs/app1/index.html
+# kubectl apply -f /tmp/confs/app1_conf.yml 

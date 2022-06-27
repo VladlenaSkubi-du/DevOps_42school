@@ -10,8 +10,6 @@ VM_CPU_COUNT = 1
 K3S_SERVER_NAME = "sschmeleS"
 # server k3s cluster ip-address
 K3S_SERVER_IP = "192.168.42.110"
-# server k3s cluster port
-K3S_SERVER_PORT = 6443
 ### /configuration parameters ###
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
