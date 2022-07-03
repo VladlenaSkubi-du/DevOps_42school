@@ -32,7 +32,7 @@ spec:
         - containerPort: 80
         volumeMounts:
         - name: html-volume-app1
-          mountPath: /usr/share/nginx/html # mounted as simple volume, other files will be not seen
+          mountPath: /usr/share/nginx/html # mounted as simple volume, other files will be not seen, inside the container, default setting for nginx: root /usr/share/nginx/html
       volumes:
       - name: html-volume-app1
         configMap:

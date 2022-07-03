@@ -28,11 +28,11 @@ fi
 
 echo "[INFO] Create ingress and application nodes on $1"
 kubectl=$(which kubectl)
-$kubectl create configmap app1 --from-file /tmp/confs/app1/index.html
+$kubectl create configmap app-one --from-file /tmp/confs/app1/index.html
 $kubectl apply -f /tmp/confs/app1/deployment_and_service.yml
-$kubectl create configmap app2 --from-file /tmp/confs/app2/index.html
+$kubectl create configmap app-two --from-file /tmp/confs/app2/index.html
 $kubectl apply -f /tmp/confs/app2/deployment_and_service.yml
-$kubectl create configmap app3 --from-file /tmp/confs/app3/index.html
+$kubectl create configmap app-three --from-file /tmp/confs/app3/index.html
 $kubectl apply -f /tmp/confs/app3/deployment_and_service.yml
 $kubectl apply -f /tmp/confs/ingress.yml
 
