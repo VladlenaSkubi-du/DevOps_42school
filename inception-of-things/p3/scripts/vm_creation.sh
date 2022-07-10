@@ -39,7 +39,6 @@ VBoxManage storageattach $VM \
     --medium "$HOME/school_21/ubuntu-20.04.4-live-server-amd64.iso"
 
 # Configure the settings for the VM
-VBoxManage modifyvm $VM --memory 1024 --cpus 1
+VBoxManage modifyvm $VM --memory 2048 --cpus 2
 VBoxManage modifyvm $VM --nic1 nat --cableconnected1 on
 VBoxManage modifyvm $VM --nic2 hostonly --cableconnected1 on --hostonlyadapter2 vboxnet0
-
