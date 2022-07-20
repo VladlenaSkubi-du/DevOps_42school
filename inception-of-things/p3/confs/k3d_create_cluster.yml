@@ -1,17 +1,22 @@
 apiVersion: k3d.io/v1alpha3
 kind: Simple
-name: fullcdargocdVM
 servers: 1
 ports:
-  - port: 18080:80
+  - port: 8080:80
     nodeFilters:
       - loadbalancer
-  - port: 18443:443
+  - port: 8443:443
     nodeFilters:
       - loadbalancer
   - port: 8888:8888
     nodeFilters:
       - loadbalancer
+options:
+  k3s:
+    extraArgs:
+      - arg: --tls-san=192.168.56.115
+        nodeFilters:
+          - server:*
 
 # map ports from the host to port on the container which matches the nodefilter loadbalancer
 # the loadbalancer nodefilter matches only the serverlb that’s deployed in front of a cluster’s server nodes
