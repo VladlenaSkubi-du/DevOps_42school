@@ -14,7 +14,7 @@ ports:
 options:
   k3s:
     extraArgs:
-      - arg: --tls-san=192.168.56.115
+      - arg: --tls-san=192.168.56.115 # hostname -I | cut -d' ' -f2 # on VM
         nodeFilters:
           - server:*
 
