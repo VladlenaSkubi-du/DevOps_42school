@@ -7,15 +7,15 @@ VM_RAM_MB = 1024
 # number of CPUs for VM
 VM_CPU_COUNT = 1
 # server k3s cluster name
-K3S_SERVER_NAME = "sschmeleS"
+K3S_SERVER_NAME = "dwisokyS"
 # server k3s cluster ip-address
 K3S_SERVER_IP = "192.168.42.110"
 # server k3s cluster port
 K3S_SERVER_PORT = 6443
-# agent k3s cluster name
-K3S_AGENT1_NAME = "sschmeleSW"
+# worker k3s cluster name
+K3S_WORKER_NAME = "dwisokySW"
 # server k3s cluster ip-address
-K3S_AGENT1_IP = "192.168.42.111"
+K3S_WORKER_IP = "192.168.42.111"
 ### /configuration parameters ###
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
@@ -29,96 +29,42 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = 'vpn_centos7'
+  config.vm.box = 'vm_centos_7'
   config.vm.box_url = 'file:///Users/a18979859/school_21/CentOS-7-x86_64-Vagrant-2004_01.VirtualBox.box'
   config.vm.box_check_update = false
-  config.vm.synced_folder "confs/", "/tmp/confs", type: "virtualbox"
+  config.vm.synced_folder "confs/", "/tmp/p1", type: "virtualbox"
 
   config.vm.define K3S_SERVER_NAME do |server|
     server.vm.hostname = K3S_SERVER_NAME
     server.vm.network "private_network", ip: K3S_SERVER_IP, virtualbox__intnet: true
-    server.vm.provider "virtualbox" do |vpn_centos_7|
-      vpn_centos_7.check_guest_additions = false
-      vpn_centos_7.customize ["modifyvm", :id, "--name", K3S_SERVER_NAME]
-      vpn_centos_7.name = K3S_SERVER_NAME
-      vpn_centos_7.cpus = VM_CPU_COUNT
-      vpn_centos_7.memory = VM_RAM_MB
+    server.vm.provider "virtualbox" do |vm_centos_7|
+      vm_centos_7.check_guest_additions = false
+      vm_centos_7.customize ["modifyvm", :id, "--name", K3S_SERVER_NAME]
+      vm_centos_7.name = K3S_SERVER_NAME
+      vm_centos_7.cpus = VM_CPU_COUNT
+      vm_centos_7.memory = VM_RAM_MB
     end
     server.vm.provision "shell" do |server|
-      server.path = "scripts/prepare_master_vm.sh"
+      server.path = "scripts/prepare_server_vm.sh"
       server.args = [K3S_SERVER_IP]
     end
   end
 
   # config.vm.provision "shell", inline: "vagrant ssh -c \"sudo cat /var/lib/rancher/k3s/server/node-token\" > ~/token.txt"
 
-  config.vm.define K3S_AGENT1_NAME do |agent|
-    agent.vm.hostname = K3S_AGENT1_NAME
-    agent.vm.network "private_network", ip: "192.168.42.111", virtualbox__intnet: true
-    agent.vm.provider "virtualbox" do |vpn_centos_7|
-      vpn_centos_7.check_guest_additions = false
-      vpn_centos_7.customize ["modifyvm", :id, "--name", K3S_AGENT1_NAME]
-      vpn_centos_7.name = K3S_AGENT1_NAME
-      vpn_centos_7.cpus = VM_CPU_COUNT
-      vpn_centos_7.memory = VM_RAM_MB
+  config.vm.define K3S_WORKER_NAME do |worker|
+    worker.vm.hostname = K3S_WORKER_NAME
+    worker.vm.network "private_network", ip: K3S_WORKER_IP, virtualbox__intnet: true
+    worker.vm.provider "virtualbox" do |vm_centos_7|
+      vm_centos_7.check_guest_additions = false
+      vm_centos_7.customize ["modifyvm", :id, "--name", K3S_WORKER_NAME]
+      vm_centos_7.name = K3S_WORKER_NAME
+      vm_centos_7.cpus = VM_CPU_COUNT
+      vm_centos_7.memory = VM_RAM_MB
     end
-    agent.vm.provision "shell" do |agent|
-      agent.path = "scripts/prepare_slave_vm.sh"
-      agent.args = [K3S_AGENT1_IP, K3S_SERVER_IP, K3S_SERVER_PORT]
+    worker.vm.provision "shell" do |worker|
+      worker.path = "scripts/prepare_worker_vm.sh"
+      worker.args = [K3S_WORKER_IP, K3S_SERVER_IP, K3S_SERVER_PORT]
     end
   end
-
-  # Disable automatic box update checking. If you disable this, then
-  # boxes will only be checked for updates when the user runs
-  # `vagrant box outdated`. This is not recommended.
-  # config.vm.box_check_update = false
-
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine. In the example below,
-  # accessing "localhost:8080" will access port 80 on the guest machine.
-  # NOTE: This will enable public access to the opened port
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
-
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine and only allow access
-  # via 127.0.0.1 to disable public access
-  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
-
-  # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  # config.vm.network "private_network", ip: "192.168.33.10"
-
-  # Create a public network, which generally matched to bridged network.
-  # Bridged networks make the machine appear as another physical device on
-  # your network.
-  # config.vm.network "public_network"
-
-  # Share an additional folder to the guest VM. The first argument is
-  # the path on the host to the actual folder. The second argument is
-  # the path on the guest to mount the folder. And the optional third
-  # argument is a set of non-required options.
-  # config.vm.synced_folder "../data", "/vagrant_data"
-
-  # Provider-specific configuration so you can fine-tune various
-  # backing providers for Vagrant. These expose provider-specific options.
-  # Example for VirtualBox:
-  #
-  # config.vm.provider "virtualbox" do |vb|
-  #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
-  #
-  #   # Customize the amount of memory on the VM:
-  #   vb.memory = "1024"
-  # end
-  #
-  # View the documentation for the provider you are using for more
-  # information on available options.
-
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
-  # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
 end

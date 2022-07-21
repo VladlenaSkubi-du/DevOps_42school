@@ -1,29 +1,18 @@
-apiVersion: v1
-kind: Service
-metadata:
-  name: app-two
-spec:
-  selector:
-    app: app-two
-  ports:
-    - protocol: TCP
-      port: 80
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app-two
+  name: app-one
   labels:
-    app: app-two
+    app: app-one
 spec:
   selector:
     matchLabels:
-      app: app-two
-  replicas: 3
+      app: app-one
+  replicas: 1
   template:
     metadata:
       labels:
-        app: app-two
+        app: app-one
     spec:
       containers:
       - name: nginx
@@ -31,9 +20,9 @@ spec:
         ports:
         - containerPort: 80
         volumeMounts:
-        - name: html-volume-app2
+        - name: html-volume-app1
           mountPath: /usr/share/nginx/html # mounted as simple volume, other files will be not seen, inside the container, default setting for nginx: root /usr/share/nginx/html
       volumes:
-      - name: html-volume-app2
+      - name: html-volume-app1
         configMap:
-          name: app-two
+          name: app-one
