@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Arguments: [K3S_SERVER_IP]
+
 echo "[INFO] Update packages on $1"
 sudo yum update -y
 
