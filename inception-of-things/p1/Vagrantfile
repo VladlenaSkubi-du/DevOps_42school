@@ -54,7 +54,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define K3S_AGENT1_NAME do |agent|
     agent.vm.hostname = K3S_AGENT1_NAME
-    agent.vm.network "private_network", ip: "192.168.42.111", virtualbox__intnet: true
+    agent.vm.network "private_network", ip: K3S_AGENT1_IP, virtualbox__intnet: true
     agent.vm.provider "virtualbox" do |vpn_centos_7|
       vpn_centos_7.check_guest_additions = false
       vpn_centos_7.customize ["modifyvm", :id, "--name", K3S_AGENT1_NAME]
