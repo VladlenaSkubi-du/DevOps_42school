@@ -6,13 +6,13 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/VladlenaSkubi-du/Inception-Of-Things_sschmele.git
+    repoURL: https://github.com/TinkiBain/IoT_dwisoky.git
     targetRevision: HEAD
-    path: manifests
+    path: default
   destination: 
     server: https://kubernetes.default.svc
     namespace: dev
   syncPolicy:
     automated:
-      selfHeal: true
+      selfHeal: false
       prune: true
