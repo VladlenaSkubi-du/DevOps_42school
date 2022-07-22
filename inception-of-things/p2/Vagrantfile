@@ -7,7 +7,7 @@ VM_RAM_MB = 1024
 # number of CPUs for VM
 VM_CPU_COUNT = 1
 # server k3s cluster name
-K3S_SERVER_NAME = "sschmeleS"
+K3S_SERVER_NAME = "abartoleS"
 # server k3s cluster ip-address
 K3S_SERVER_IP = "192.168.42.110"
 ### /configuration parameters ###
