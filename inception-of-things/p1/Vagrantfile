@@ -7,13 +7,13 @@ VM_RAM_MB = 1024
 # number of CPUs for VM
 VM_CPU_COUNT = 1
 # server k3s cluster name
-K3S_SERVER_NAME = "sschmeleS"
+K3S_SERVER_NAME = "udraugr-S"
 # server k3s cluster ip-address
 K3S_SERVER_IP = "192.168.42.110"
 # server k3s cluster port
 K3S_SERVER_PORT = 6443
 # agent k3s cluster name
-K3S_AGENT1_NAME = "sschmeleSW"
+K3S_AGENT1_NAME = "udraugr-SW"
 # server k3s cluster ip-address
 K3S_AGENT1_IP = "192.168.42.111"
 ### /configuration parameters ###
