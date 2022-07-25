@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wil-app
+spec:
+  selector:
+    matchLabels:
+      app: wil-app
+  template:
+    metadata:
+      labels:
+        app: wil-app
+    spec:
+      containers:
+      - name: wil-app
+        image: wil42/playground:v1
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8888
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: wil-app-service
+spec:
+  selector:
+    app: wil-app
+  ports:
+    - port: 8888
+  type: LoadBalancer

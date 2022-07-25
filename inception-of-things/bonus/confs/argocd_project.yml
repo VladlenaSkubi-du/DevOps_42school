@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: argocd-project
+  labels:
+    app: iot
+spec:
+  description: ArgoCD Project to deploy app
+  sourceRepos:
+    - {{ new_nalue_while_evaluation }}
+  destinations:
+    - namespace: dev
+      server: https://kubernetes.default.svc
+  orphanedResources:
+    warn: false
+
