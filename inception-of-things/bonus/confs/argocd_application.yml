@@ -6,9 +6,9 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: {{ new_nalue_while_evaluation }}
+    repoURL: https://gitlab.192.168.59.100.nip.io/gitlab-instance-9854ee8a/check.git
     targetRevision: HEAD
-    path: default
+    path: .
   destination: 
     server: https://kubernetes.default.svc
     namespace: dev

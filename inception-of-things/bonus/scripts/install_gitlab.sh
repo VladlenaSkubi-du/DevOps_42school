@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# https://docs.gitlab.com/charts/development/minikube/
+
 echo "Starting minikube"
 minikube start --memory 8192 --cpus 5 --kubernetes-version v1.18.2 --driver=virtualbox
 minikube addons enable ingress
@@ -18,8 +20,8 @@ helm upgrade --install gitlab gitlab/gitlab \
 --set global.hosts.externalIP=$(minikube ip) \
 -n gitlab
 
-echo "Waiting for gitlab readiness"
-while ! kubectl wait -n gitlab --for=condition=Ready pods --all; do; done
+echo "Wait for 15 minutes for gitlab to be ready"
+sleep 15m
 
 echo "GitLab URL = https://gitlab.$(minikube ip).nip.io"
 echo "PASSWORD for ROOT:"

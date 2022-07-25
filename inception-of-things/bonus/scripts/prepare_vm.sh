@@ -44,7 +44,7 @@ then
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 fi
 
-echo "[INFO] Installing browser"
+echo "[INFO] Installing browser on VM"
 sudo systemctl enable --now snapd.socket
 sudo ln -s /var/lib/snapd/snap /snap
 snap install midori
