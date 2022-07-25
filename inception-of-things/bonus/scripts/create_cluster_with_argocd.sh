@@ -3,38 +3,30 @@
 # k3d: https://k3d.io/v5.4.1/usage/exposing_services/
 # argocd: https://argo-cd.readthedocs.io/en/stable/getting_started/
 
-NAME="bonus-iot"
+NAME="bonus-gitlab"
 
 echo "Create k3d cluster with mounting 8888 of docker container to 8888 host port"
-k3d cluster create $NAME --api-port 6443 -p "28080:80@loadbalancer" -p "28888:8888@loadbalancer" --agents 2
-sleep 20
-kubectl cluster-info
+k3d cluster create $NAME -p "28888:8888@loadbalancer"
 
 echo "Create namespaces"
 kubectl create namespace argocd
 kubectl create namespace dev
 
 echo "Create argocd agent"
-kubectl apply -n argocd -f confs/argocd_install_insecure_added.yml # downloaded to argocd_install.yml from https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml and changed
+kubectl apply -n argocd -f confs/argocd_install.yml
 kubectl wait -n argocd --for=condition=Ready pods --all
 kubectl wait -n argocd --for=condition=Ready pods --all
 kubectl wait -n argocd --for=condition=Ready pods --all
 kubectl wait -n argocd --for=condition=Ready pods --all
-kubectl apply -n argocd -f confs/argocd_ingress.yml
 
+echo "Make port-forwarding in other terminal to get argocd server: kubectl port-forward svc/argocd-server -n argocd 4242:443"
 echo "Password to enter argocd server UI"
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 
 echo "Create application"
-kubectl apply -n argocd -f confs/argocd_project.yml 
+kubectl apply -n argocd -f confs/argocd_project.yml
 kubectl apply -n argocd -f confs/argocd_application.yml
 kubectl wait -n argocd --for=condition=Ready pods --all
 kubectl wait -n argocd --for=condition=Ready pods --all
 kubectl wait -n argocd --for=condition=Ready pods --all
 kubectl wait -n argocd --for=condition=Ready pods --all
-
-# If problems:
-# kubectl get all --all-namespaces
-# kubectl delete deployment --all -n argocd
-# kubectl delete pods --all -n argocd      
-# kubectl delete svc --all -n argocd 
