@@ -3,7 +3,7 @@
 # k3d: https://k3d.io/v5.4.1/usage/exposing_services/
 # argocd: https://argo-cd.readthedocs.io/en/stable/getting_started/
 
-NAME="argocd_application"
+NAME="argocd-p3"
 
 echo "Create k3d cluster with mounting 8888 of docker container to 8888 host port"
 k3d cluster create $NAME -p "8888:8888@loadbalancer"
