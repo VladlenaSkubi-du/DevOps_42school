@@ -7,7 +7,7 @@ metadata:
 spec:
   description: ArgoCD Project to deploy app
   sourceRepos:
-    - https://gitlab.192.168.59.100.nip.io/gitlab-instance-9854ee8a/*
+    - {{ gitlab_repo_url_added_while_evaluation }}
   destinations:
     - namespace: dev
       server: https://kubernetes.default.svc

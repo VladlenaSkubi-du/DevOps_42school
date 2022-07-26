@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://gitlab.192.168.59.100.nip.io/gitlab-instance-9854ee8a/check.git
+    repoURL: {{ gitlab_repo_url_added_while_evaluation }}
     targetRevision: HEAD
     path: .
   destination: 
