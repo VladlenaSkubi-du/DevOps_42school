@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wil-playground
+spec:
+  selector:
+    matchLabels:
+      app: wil-playground
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 70% 
+  template:
+    metadata:
+      labels:
+        app: wil-playground
+    spec:
+      containers:
+      - name: wil-playground
+        image: wil42/playground:v1 # v1 or v2
+        ports:
+        - containerPort: 8888
+      hostNetwork: true # To deal with curl: (52) Empty reply from server from VM
