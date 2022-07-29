@@ -5,7 +5,7 @@ VM='p3_sschmele_fullcd'
 # Create and Register the VM with VirtualBox
 VBoxManage createvm --name $VM \
     --ostype RedHat_64 \
-    --basefolder "$HOME/VirtualBox\ VMs" \
+    --basefolder "$HOME/VirtualBox VMs" \
     --register
 
 # Configure the settings for the VM
@@ -16,7 +16,7 @@ VBoxManage modifyvm $VM --boot1 dvd # Boot devices
 
 # Create hard disk
 VBoxManage createhd \
-    --filename "$HOME/VirtualBox\ VMs/$VM/$VM.vdi" \
+    --filename "$HOME/VirtualBox VMs/$VM/$VM.vdi" \
     --format VDI \
     --size 20480 \
     --variant Standard
@@ -30,7 +30,7 @@ VBoxManage storageattach $VM \
     --storagectl "$VM-SATA" \
     --port 1 \
     --type hdd \
-    --medium "$HOME/VirtualBox\ VMs/$VM/$VM.vdi"
+    --medium "$HOME/VirtualBox VMs/$VM/$VM.vdi"
 
 # Attach the bootable ISO to the VM
 VBoxManage storageattach $VM \
