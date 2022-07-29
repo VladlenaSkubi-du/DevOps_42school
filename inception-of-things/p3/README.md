@@ -1,6 +1,9 @@
 # ArgoCD
 
-!Requires resources for all the ArgoCD pods creation. For example before stopping most "heavy" processes on Mac OS:
+> **Warning**
+Requires resources for all the ArgoCD pods creation. 
+
+For example before stopping most "heavy" processes on Mac OS ArgoCD pods did not want to start, so it took 13 minutes in general:
 
         % kubectl get pods -n argocd
         NAME                                               READY   STATUS            RESTARTS   AGE
@@ -82,9 +85,33 @@ As a result you can see your project in UI of ArgoCD server:
   <img src="readme_images/argocd_project.png"  title="argocd_project">
   <img src="readme_images/argocd_preview.png"  title="argocd_preview">
   <img src="readme_images/argocd_application.png"  title="argocd_application">
-  <img src="readme_images/argocd_app_in_detail.png"  title="argocd_preview">
+  <img src="readme_images/argocd_app_in_detail_v1.png"  title="argocd_preview">
 </p>
 
 And if we change application version in github repository:
 
-  
+        % git add .
+        % git diff --cached
+        diff --git a/inception-of-things/manifests/deployment.yml b/inception-of-things/manifests/deployment.yml
+        index 40fda80..9ac6e92 100644
+        --- a/inception-of-things/manifests/deployment.yml
+        +++ b/inception-of-things/manifests/deployment.yml
+        @@ -19,7 +19,7 @@ spec:
+             spec:
+               containers:
+               - name: wil-playground
+        -        image: wil42/playground:v1 # v1 or v2
+        +        image: wil42/playground:v2 # v1 or v2
+                 ports:
+                 - containerPort: 8888
+               hostNetwork: true # To deal with curl: (52) Empty reply from server from VM
+        % git commit -m "Version for test"
+
+ArgoCD Agent after 3 default minutes will pull changes from Github to out cluster:
+
+<p align="center">
+  <img src="readme_images/argocd_sync.png"  title="argocd_project">
+  <img src="readme_images/argocd_app_in_detail_v2.png"  title="argocd_preview">
+</p>
+
+

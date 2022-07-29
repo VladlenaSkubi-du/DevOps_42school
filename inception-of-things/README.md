@@ -33,7 +33,7 @@ We need to make the same task as we had in p3 using a gitlab repository that we 
 
 > The latest version available of Gitlab from the official website is expected.
 
-Note: it requires too much resources so p3 part is done on host (not on VM).
+Note: it requires too much resources so p3 part in bonus is done on host (not on VM).
 
 ## Grade
 100/100
