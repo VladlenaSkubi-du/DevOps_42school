@@ -1,6 +1,6 @@
 # Inception-of-Things
 
-<p align="center">
+<p align="center", style="background-color:white">
   <img src="readme_images/k8s.png" width="180" height="100" title="k8s logo">
   <img src="readme_images/k3s.png" width="75" height="100" title="k3s logo">
   <img src="readme_images/k3d.png" width="220" height="100" title="k3s logo">
