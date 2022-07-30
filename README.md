@@ -1,5 +1,10 @@
 # DevOps_42school
-Three projects: init, roger-skyline-1 and docker-1 with my small tutorials and the final results
+Four projects:
+* init (1st year)
+* roger-skyline-1 (1st year)
+* docker-1 (1st year) 
+* inception-of-things (4th year)
+with my small tutorials and the final results
 
 # Init
 
