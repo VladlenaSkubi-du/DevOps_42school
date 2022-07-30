@@ -16,7 +16,7 @@ We need to create two virtual machines using Vagrant with exact parameters that 
 We need to create a virtual machine using Vagrant with exact parameters that will be a server node in a k3s cluster with five applications pods that will be selected by "Host" header:
 
 <p align="center">
-  <img src="readme_images/p2.png" width="130" height="200" title="k8s logo">
+  <img src="readme_images/p2.png" width="130" height="200" title="p2">
 </p>
 
 ## P3
